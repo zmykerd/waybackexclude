@@ -1,4 +1,27 @@
 <!DOCTYPE html>
+<!--
+MIT License
+
+Copyright (c) 2026 zMykerd
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Wayback Exit - removal request builder</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f0c0d'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23e5383b' stroke-width='3'/%3E%3Cpath d='M16 10v6l4 3' fill='none' stroke='%23ede5e5' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M7 25L25 7' stroke='%230f0c0d' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M7 25L25 7' stroke='%23e5383b' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -50,7 +73,7 @@ pre i{color:var(--mu);font-style:normal}pre b{color:var(--rl);font-weight:600}
 ol,ul{padding-left:1.2em;margin:0}li{margin-bottom:8px}
 .guide{margin-top:44px;padding-top:28px;border-top:1px solid var(--ln);display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
 code{font:.88em "JetBrains Mono",monospace;color:var(--rl)}
-footer{margin-top:36px;color:var(--mu);font-size:.85rem}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--ln);color:var(--mu);font-size:.85rem}
 </style></head><body><div class="w">
 <header><h1>Take your site off the Wayback Machine</h1><p>Build the robots.txt and the removal email that take any domain or website you own out of the Internet Archive. Everything runs in your browser; nothing leaves it until you send the drafted email.</p></header>
 <div class="g"><main>
@@ -108,7 +131,7 @@ footer{margin-top:36px;color:var(--mu);font-size:.85rem}
 <li>Keep the robots.txt online after the removal if you want the exclusion to hold.</li>
 <li>Each subdomain serves its own robots.txt, so list and publish one per subdomain.</li>
 <li>The domains and contacts are written into robots.txt as comments, and that file is public. Use a role address if you do not want scrapers to see yours.</li></ul></div></section>
-<footer>Review the draft before sending it. Wayback Exit only builds text.</footer></div>
+<footer>Review the draft before sending it. Wayback Exit only builds text.<br>© 2026 zMykerd. Released under the MIT License.</footer></div>
 
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
