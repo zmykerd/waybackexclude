@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wayback Exit - removal request builder</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f0c0d'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23e5383b' stroke-width='3'/%3E%3Cpath d='M16 10v6l4 3' fill='none' stroke='%23ede5e5' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M7 25L25 7' stroke='%230f0c0d' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M7 25L25 7' stroke='%23e5383b' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0c0d;--pn:#171112;--ln:#2f2326;--tx:#ede5e5;--mu:#a09294;--rd:#e5383b;--rl:#ff7a7d;--rb:#2a1214;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 "Bricolage Grotesque",system-ui,sans-serif}
+.w{max-width:1180px;margin:0 auto;padding:clamp(16px,4vw,40px)}
+header{padding:12px 0 28px;border-bottom:1px solid var(--ln);margin-bottom:28px}
+header:before{content:"";display:block;width:72px;height:12px;background:var(--rd);margin-bottom:20px}
+h1{font-size:clamp(2rem,5.5vw,3.6rem);line-height:1.02;margin:0 0 14px;font-weight:800;letter-spacing:-.025em;max-width:16ch}
+header p{color:var(--mu);max-width:60ch;margin:0}
+h2{font-size:1.05rem;margin:0 0 10px;font-weight:600}
+.mu{color:var(--mu)}
+.g{display:grid;gap:28px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:960px){.g{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:start}.sticky{position:sticky;top:20px}}
+fieldset{border:0;padding:0;margin:0 0 26px}
+legend{padding:0;font-weight:600;margin-bottom:10px}
+.f{display:block;font-size:.9rem;color:var(--mu);margin:12px 0 5px}
+input[type=text],input[type=email],input[type=date],textarea{width:100%;background:var(--pn);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:10px 12px;font:inherit}
+textarea{resize:vertical;font:.9rem "JetBrains Mono",ui-monospace,monospace}
+:focus-visible{outline:2px solid var(--rl);outline-offset:2px}
+input:focus,textarea:focus{border-color:var(--rd)}
+.row{display:flex;gap:8px}.row>input{flex:1}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--ln);background:var(--pn);color:var(--tx);padding:9px 14px}
+button:hover{border-color:var(--rd)}
+button.p{background:var(--rd);border-color:var(--rd);color:#fff;font-weight:600}
+button.p:hover{background:#c92c2f}
+button:disabled{opacity:.45;cursor:not-allowed}
+.chips{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.chips li{margin:0;background:var(--rb);border:1px solid #5a2327;border-radius:99px;padding:3px 6px 3px 12px;font-size:.9rem}
+.chips button{border:0;background:none;padding:0 6px;color:var(--rl)}
+.opt{display:flex;gap:12px;padding:12px 14px;border:1px solid var(--ln);border-left-width:4px;border-radius:8px;margin-bottom:8px;cursor:pointer;background:var(--pn)}
+.opt:has(input:checked){border-color:var(--rd);background:var(--rb)}
+.opt input{accent-color:var(--rd);margin-top:6px}
+.opt b{display:block}.opt span{color:var(--mu);font-size:.9rem}
+.pn{display:none;padding:4px 0 4px 4px}.pn.on{display:block}
+.ck{display:inline-flex;gap:6px;align-items:center;margin:0 14px 6px 0}.ck input{accent-color:var(--rd)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.out{background:var(--pn);border:1px solid var(--ln);border-left:4px solid var(--rd);border-radius:8px;overflow:hidden}
+.tabs{display:flex;border-bottom:1px solid var(--ln)}
+.tabs button{border:0;border-radius:0;background:none;color:var(--mu);padding:12px 18px}
+.tabs button[aria-selected=true]{color:var(--tx);box-shadow:inset 0 -2px var(--rd)}
+pre{margin:0;padding:16px;font:.85rem/1.6 "JetBrains Mono",ui-monospace,monospace;white-space:pre-wrap;word-break:break-word;min-height:260px;max-height:62vh;overflow:auto}
+pre i{color:var(--mu);font-style:normal}pre b{color:var(--rl);font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;border-top:1px solid var(--ln)}
+.sm{font-size:.88rem;margin:10px 2px 0}.sm a{color:var(--rl);margin-right:12px}
+ol,ul{padding-left:1.2em;margin:0}li{margin-bottom:8px}
+.guide{margin-top:44px;padding-top:28px;border-top:1px solid var(--ln);display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+code{font:.88em "JetBrains Mono",monospace;color:var(--rl)}
+footer{margin-top:36px;color:var(--mu);font-size:.85rem}
+</style></head><body><div class="w">
+<header><h1>Take your site off the Wayback Machine</h1><p>Build the robots.txt and the removal email that take any domain or website you own out of the Internet Archive. Everything runs in your browser; nothing leaves it until you send the drafted email.</p></header>
+<div class="g"><main>
+<fieldset><legend>Your site</legend>
+<label class="f" for="domains">Domains, one per line</label>
+<textarea id="domains" rows="3" placeholder="example.com&#10;blog.example.org&#10;example.github.io"></textarea>
+<label class="f" for="em">Authorized email addresses</label>
+<div class="row"><input type="email" id="em" placeholder="you@example.com" autocomplete="off"><button type="button" id="add">Add</button></div>
+<ul class="chips" id="chips"></ul>
+<p class="sm mu">The first address sends the request; the others are copied as authorized contacts. Use an address tied to the site.</p>
+<label class="f" for="proof">How you control the site</label>
+<input type="text" id="proof" placeholder="Registrant of example.com and admin of its hosting account">
+<label class="f" for="since">Controlled since (optional)</label>
+<input type="date" id="since"></fieldset>
+
+<fieldset><legend>What should be removed?</legend>
+<label class="opt"><input type="radio" name="mode" value="block" checked><div><b>Exclude permanently</b><span>Delete every snapshot and block future archiving.</span></div></label>
+<label class="opt"><input type="radio" name="mode" value="purge"><div><b>Delete all past snapshots</b><span>Keep archiving new pages from now on.</span></div></label>
+<label class="opt"><input type="radio" name="mode" value="types"><div><b>Delete specific types or paths</b><span>Images, PDFs, scripts, or a folder such as /private/.</span></div></label>
+<label class="opt"><input type="radio" name="mode" value="range"><div><b>Delete a date range</b><span>Remove only the captures taken between two dates.</span></div></label>
+<div class="pn" data-m="types"><p class="f">File types</p>
+<label class="ck"><input type="checkbox" class="ty" value="html">HTML pages</label>
+<label class="ck"><input type="checkbox" class="ty" value="img">Images</label>
+<label class="ck"><input type="checkbox" class="ty" value="code">CSS and JS</label>
+<label class="ck"><input type="checkbox" class="ty" value="doc">PDFs and documents</label>
+<label class="ck"><input type="checkbox" class="ty" value="media">Audio and video</label>
+<label class="f" for="paths">Paths, one per line</label>
+<textarea id="paths" rows="3" placeholder="/private/&#10;/old-blog/"></textarea></div>
+<div class="pn" data-m="range"><div class="two">
+<div><label class="f" for="from">From</label><input type="date" id="from"></div>
+<div><label class="f" for="to">To</label><input type="date" id="to"></div></div></div></fieldset>
+
+<fieldset><legend>robots.txt crawlers</legend>
+<label class="ck"><input type="checkbox" class="ag" value="ia_archiver" checked>ia_archiver</label>
+<label class="ck"><input type="checkbox" class="ag" value="archive.org_bot" checked>archive.org_bot</label>
+<div class="pn" data-m="block"><label class="ck"><input type="checkbox" id="all">Also block every other crawler (<code>User-agent: *</code>)</label></div></fieldset>
+</main>
+
+<aside class="sticky"><div class="out">
+<div class="tabs" role="tablist"><button role="tab" data-t="robots" aria-selected="true">robots.txt</button><button role="tab" data-t="mail" aria-selected="false">Email</button></div>
+<pre id="out" tabindex="0"></pre>
+<div class="bar"><button class="p" id="gen">Generate</button><button id="cp">Copy</button><button id="dl">Download</button><button id="mail">Draft email</button></div></div>
+<p class="sm mu" id="hint"></p><p class="sm" id="st" role="status"></p><p class="sm" id="chk"></p></aside></div>
+
+<section class="guide">
+<div><h2>How it works</h2><ol>
+<li>Publish <code>robots.txt</code> at the root of each domain so it loads at <code>https://your-domain/robots.txt</code>. This works on any host: your own server, a CMS, shared hosting, GitHub Pages, DuckDNS and so on. It stops future crawls but does not delete what is already archived.</li>
+<li>Send the drafted email to <code>info@archive.org</code> from an address tied to the site. It names the URLs, the scope, and when you controlled the site.</li>
+<li>Wait for a reply. The Archive publishes no turnaround time; expect days to a few weeks.</li>
+<li>Use the check links under the output. Removed URLs show an exclusion notice instead of snapshots.</li></ol></div>
+<div><h2>Good to know</h2><ul>
+<li>Only send requests for sites you own or administer, and keep the proof field specific; the Archive may ask for it.</li>
+<li>robots.txt compliance is voluntary and does not remove existing captures. The email does.</li>
+<li>Date-range and file-type removals are email-only, since robots.txt cannot be scoped by date.</li>
+<li>Keep the robots.txt online after the removal if you want the exclusion to hold.</li>
+<li>Each subdomain serves its own robots.txt, so list and publish one per subdomain.</li>
+<li>The domains and contacts are written into robots.txt as comments, and that file is public. Use a role address if you do not want scrapers to see yours.</li></ul></div></section>
+<footer>Review the draft before sending it. Wayback Exit only builds text.</footer></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const T={html:['html','htm'],img:['png','jpg','jpeg','gif','webp','svg'],code:['css','js'],doc:['pdf','doc','docx','txt'],media:['mp4','webm','mp3']},
+LB={html:'HTML pages',img:'images',code:'CSS and JavaScript',doc:'PDFs and documents',media:'audio and video'},
+emails=[];let tab='robots',cur='';
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),
+lines=s=>s.split('\n').map(x=>x.trim()).filter(Boolean),
+doms=()=>lines($('#domains').value).map(s=>s.replace(/^https?:\/\//i,'').replace(/\/+$/,'')),
+mode=()=>$('input[name=mode]:checked').value,
+types=()=>$$('.ty:checked').map(e=>e.value),
+paths=()=>lines($('#paths').value).map(p=>p[0]=='/'?p:'/'+p);
+
+function robots(){
+ const m=mode(),ag=$$('.ag:checked').map(e=>e.value),R=[];
+ if(m=='block')R.push('/');
+ if(m=='types'){types().forEach(t=>T[t].forEach(x=>R.push('/*.'+x+'$')));R.push(...paths())}
+ const d=doms(),L=['# robots.txt generated '+new Date().toISOString().slice(0,10)];
+ if(d.length)L.push('# Domains: '+d.join(', '));
+ if(emails.length)L.push('# Authorized contacts: '+emails.join(', '));
+ if(m=='purge'||m=='range')L.push('# Removal is requested by email. This file keeps future archiving allowed.');
+ if(m=='types')L.push('# * and $ wildcards are honored by major crawlers but are not in the original standard.');
+ L.push(...(ag.length?ag:['ia_archiver']).map(a=>'User-agent: '+a),...(R.length?R.map(r=>'Disallow: '+r):['Disallow:']));
+ if(m=='block'&&$('#all').checked)L.push('','User-agent: *','Disallow: /');
+ return L.join('\n')+'\n'}
+
+function email(){
+ const d=doms(),m=mode(),u=(d.length?d:['your-site.example']).map(x=>'  https://'+x+'/').join('\n'),
+ t=types().map(k=>LB[k]),p=paths(),f=$('#from').value,e=$('#to').value,
+ S={block:'Please exclude the site(s) above from the Wayback Machine permanently: remove every existing snapshot and stop future archiving. A robots.txt disallowing ia_archiver is published at the site root.',
+ purge:'Please remove ALL existing snapshots of the site(s) above. Future archiving may continue; my robots.txt allows it.',
+ types:'Please remove the existing snapshots of the following content from the site(s) above:\n'+(t.length?'  - File types: '+t.join(', ')+'\n':'')+(p.length?'  - Paths: '+p.join(', ')+'\n':'')+(t.length||p.length?'':'  - [choose a file type or a path]\n')+'Everything else may stay archived.',
+ range:'Please remove every snapshot of the site(s) above captured between '+(f||'the first capture')+' and '+(e||'the most recent capture')+' (inclusive). Captures outside that range may stay archived.'}[m],
+ pr=$('#proof').value.trim(),s=$('#since').value;
+ const body=['Hello Internet Archive team,','','I am the owner and administrator of the following site(s):','',u,'',S,'',
+  'Proof of control: '+(pr||'[describe how you control the site]')+(s?' (since '+s+')':'')+'.','The robots.txt at each site root lists these domains and the authorized contacts, so the request can be verified against it.',
+  emails.length>1?'Other authorized contacts: '+emails.slice(1).join(', ')+'.':'','','Please confirm by reply once this has been processed. Thank you.','',emails[0]||'[your email]'].join('\n').replace(/\n{3,}/g,'\n\n');
+ return{sub:'Wayback Machine '+(m=='block'?'exclusion':'removal')+' request: '+(d[0]||'your-site.example'),body}}
+
+function render(){
+ const r=robots(),e=email(),d=doms(),ok=emails.length&&d.length;
+ cur=tab=='robots'?r:'Subject: '+e.sub+'\n\n'+e.body;
+ $('#out').innerHTML=tab=='robots'?esc(r).replace(/^(#.*)$/gm,'<i>$1</i>').replace(/^(Disallow:.*)$/gm,'<b>$1</b>'):esc(cur);
+ $('#dl').textContent=tab=='robots'?'Download robots.txt':'Download email';
+ $('#mail').disabled=!ok;
+ $('#hint').textContent=ok?'':'Add a domain and an authorized email to enable the email draft.';
+ $('#chk').innerHTML=d.length?'Check snapshots: '+d.map(x=>'<a href="https://web.archive.org/web/*/'+esc(encodeURI(x))+'*" target="_blank" rel="noopener">'+esc(x)+'</a>').join(''):''}
+
+const say=m=>{$('#st').textContent=m;clearTimeout(say.t);say.t=setTimeout(()=>$('#st').textContent='',2200)},
+upd=()=>{$$('.pn').forEach(p=>p.classList.toggle('on',p.dataset.m.split(' ').includes(mode())));render()},
+chips=()=>{$('#chips').innerHTML=emails.map((v,i)=>'<li>'+esc(v)+'<button type="button" data-i="'+i+'" aria-label="Remove '+esc(v)+'">×</button></li>').join('')},
+add=()=>{const i=$('#em'),v=i.value.trim();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){say('Enter a valid email address.');return}if(!emails.includes(v))emails.push(v);i.value='';chips();upd()},
+save=(n,t)=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download=n;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),999);say('Saved '+n)};
+
+$('#add').onclick=add;
+$('#em').onkeydown=e=>{if(e.key=='Enter'){e.preventDefault();add()}};
+$('#chips').onclick=e=>{const i=e.target.dataset.i;if(i!=null){emails.splice(i,1);chips();upd()}};
+$$('[role=tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;$$('[role=tab]').forEach(x=>x.setAttribute('aria-selected',x==b));render()});
+$('#gen').onclick=()=>{render();$('#out').scrollIntoView({block:'nearest'});say('Generated.')};
+$('#cp').onclick=()=>navigator.clipboard.writeText(cur).then(()=>say('Copied.'),()=>say('Copy failed. Select the text manually.'));
+$('#dl').onclick=()=>save(tab=='robots'?'robots.txt':'wayback-removal-email.txt',cur);
+$('#mail').onclick=()=>{const e=email(),cc=emails.slice(1);location.href='mailto:info@archive.org?'+(cc.length?'cc='+encodeURIComponent(cc.join(','))+'&':'')+'subject='+encodeURIComponent(e.sub)+'&body='+encodeURIComponent(e.body)};
+document.addEventListener('input',upd);document.addEventListener('change',upd);upd();
+</script></body></html>
