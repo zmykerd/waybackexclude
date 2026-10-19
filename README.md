@@ -96,6 +96,7 @@ mkdir wayback-exit && cd wayback-exit
 git init -b main
 cp /path/to/wayback-exit.html index.html
 cp /path/to/README.md .
+cp /path/to/LICENSE .
 git add .
 git commit -m "Add Wayback Exit"
 git remote add origin https://github.com/YOUR-USERNAME/wayback-exit.git
@@ -109,6 +110,7 @@ Your repository should look like this:
 ```text
 wayback-exit/
 ├── index.html     the tool
+├── LICENSE        MIT License
 └── README.md      this tutorial
 ```
 
@@ -646,4 +648,6 @@ No. It only generates text and opens your mail app. You decide whether to send t
 
 Issues and pull requests are welcome: bug reports, wording fixes, new hosting instructions, translations.
 
-Add a `LICENSE` file to the repository and reference it here, for example: *Released under the MIT License.*
+Released under the [MIT License](LICENSE).
+
+Copyright (c) 2026 zMykerd
